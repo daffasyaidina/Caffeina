@@ -13,11 +13,18 @@ const ProductDetails = () => {
     description: '',
     price: '',
   });
+  const [currentUser, setCurrentUser] = useState(null);
 
   // Fetch product details
   useEffect(() => {
+    const token = localStorage.getItem('token'); // Get token from localStorage
+  
+    const headers = token
+      ? { Authorization: token } // Include header only if the token exists
+      : {}; // No headers for unauthenticated users
+  
     axios
-      .get(`http://localhost:5000/api/products/${id}`)
+      .get(`http://localhost:5000/api/products/${id}`, { headers })
       .then((response) => {
         setProduct(response.data);
         setFormData({
@@ -25,12 +32,17 @@ const ProductDetails = () => {
           description: response.data.description,
           price: response.data.price,
         });
+        if (token) {
+          const user = JSON.parse(atob(token.split('.')[1])); // Decode JWT payload
+          setCurrentUser(user.id);
+        }
       })
       .catch((err) => {
         console.error('Error fetching product:', err);
         alert('Failed to fetch product details');
       });
   }, [id]);
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -38,11 +50,16 @@ const ProductDetails = () => {
 
   // Submit edited data
   const handleEdit = () => {
-    const token = localStorage.getItem('token'); // Retrieve token from localStorage
+    const token = localStorage.getItem('token');
+    if (currentUser !== product.user) {
+      alert('You are not authorized to edit this product.');
+      return;
+    }
+
     axios
       .put(`http://localhost:5000/api/products/${id}`, formData, {
         headers: {
-          Authorization: token, // Pass token for authentication
+          Authorization: token,
         },
       })
       .then(() => {
@@ -58,11 +75,16 @@ const ProductDetails = () => {
 
   // Delete the product
   const handleDelete = () => {
-    const token = localStorage.getItem('token'); // Retrieve token from localStorage
+    const token = localStorage.getItem('token');
+    if (currentUser !== product.user) {
+      alert('You are not authorized to delete this product.');
+      return;
+    }
+
     axios
       .delete(`http://localhost:5000/api/products/${id}`, {
         headers: {
-          Authorization: token, // Pass the token in the request header
+          Authorization: token,
         },
       })
       .then(() => {
@@ -112,12 +134,16 @@ const ProductDetails = () => {
           <h2>{product.name}</h2>
           <p>{product.description}</p>
           <p>Price: IDR {product.price}</p>
-          <button className="edit-btn" onClick={() => setEditMode(true)}>
-            Edit
-          </button>
-          <button className="delete-btn" onClick={handleDelete}>
-            Delete
-          </button>
+          {currentUser === product.user && ( // Show edit and delete buttons only if the user is the creator 
+            <>
+              <button className="edit-btn" onClick={() => setEditMode(true)}> 
+                Edit
+              </button>
+              <button className="delete-btn" onClick={handleDelete}>
+                Delete
+              </button>
+            </>
+          )}
         </div>
       )}
     </div>

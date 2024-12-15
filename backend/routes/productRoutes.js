@@ -14,29 +14,47 @@ router.get("/", async (req, res) => {
 });
 
 // Add a Product
-router.post("/", async (req, res) => {
-  try {
-    const { name, description, price } = req.body;
+router.post('/', authenticate, async (req, res) => {
+  const { name, description, price } = req.body;
 
-    const product = await Product.create({ name, description, price });
-    res.status(201).json(product);
-  } catch (err) {
-    res.status(500).json({ message: "Server error" });
+  try {
+    const product = new Product({
+      name,
+      description,
+      price,
+      user: req.user.id, // Attach the logged-in user's ID
+    });
+
+    const savedProduct = await product.save();
+    res.status(201).json(savedProduct);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to create product', error });
   }
 });
 
 // delete a product
 router.delete('/:id', authenticate, async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const product = await Product.findByIdAndDelete(req.params.id);
+    const product = await Product.findById(id);
+
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    res.status(200).json({ message: 'Product deleted successfully.' });
+
+    // Check if the logged-in user is the creator
+    if (product.user.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Not authorized to delete this product' });
+    }
+
+    await product.deleteOne();
+    res.status(200).json({ message: 'Product deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to delete product.' });
+    res.status(500).json({ message: 'Server error', error });
   }
 });
+
 
 // Edit a product
 router.put('/:id', authenticate, async (req, res) => {
@@ -50,6 +68,11 @@ router.put('/:id', authenticate, async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
 
+    // Check if the logged-in user is the creator
+    if (product.user.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Not authorized to edit this product' });
+    }
+
     // Update product fields
     product.name = name || product.name;
     product.description = description || product.description;
@@ -61,6 +84,7 @@ router.put('/:id', authenticate, async (req, res) => {
     res.status(500).json({ message: 'Server error', error });
   }
 });
+
 
 // Fetch a single product by ID
 router.get("/:id", async (req, res) => {
