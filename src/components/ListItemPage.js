@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "../utils/axiosConfig";
 import "./ListItemPage.css";
 
+// ListItemPage component
 const ListItemPage = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -10,7 +11,8 @@ const ListItemPage = () => {
   });
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-
+  
+  // Handle form input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -28,6 +30,7 @@ const ListItemPage = () => {
     }
   };
 
+  // Render the list item form
   return (
     <div className="list-item-page-container">
       <h1 className="list-item-header">List a New Item</h1>

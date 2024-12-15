@@ -24,6 +24,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+// delete a product
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;

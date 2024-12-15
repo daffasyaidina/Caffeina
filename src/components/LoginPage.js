@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "./LoginPage.css";
 
+// Define the login page component
 const LoginPage = () => {
   const { login } = useContext(AuthContext); // Make sure AuthContext.Provider provides 'login'
   const [formData, setFormData] = useState({
@@ -26,6 +27,7 @@ const LoginPage = () => {
     }
   };
 
+  // Render the login form
   return (
     <div className="login-page">
       <h1>Sign in</h1>

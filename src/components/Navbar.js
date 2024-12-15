@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import "./Navbar.css"; // Import Navbar.css for styling
+import "./Navbar.css"; 
 
+// Define the Navbar component
 const Navbar = () => {
   const { token, logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -15,7 +16,8 @@ const Navbar = () => {
     logout(); // Perform logout
     navigate("/"); // Force redirect to the home page
   };
-
+  
+  // Render the Navbar component
   return (
     <nav className="navbar">
       <h1>

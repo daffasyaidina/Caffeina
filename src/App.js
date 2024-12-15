@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import ListItemPage from "./components/ListItemPage";
 import ProductDetails from "./components/ProductDetails"; 
 
+// App component
 function App() {
   return (
     <AuthProvider>

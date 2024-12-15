@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router
+import { Link } from "react-router-dom"; 
 import "./HomePage.css";
 
+// HomePage component
 const HomePage = () => {
   const [products, setProducts] = useState([]);
 
+  // Fetch products from the server
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch("http://localhost:5000/api/products") // Fetch products from the server
       .then((response) => response.json())
       .then((data) => setProducts(data))
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
 
+  // Render the component
   return (
     <div className="home-container">
       <header className="header">
@@ -29,7 +32,7 @@ const HomePage = () => {
           {products.length > 0 ? (
             products.map((product) => (
               <Link
-                to={`/product/${product._id}`} // Dynamic route to product details page
+                to={`/product/${product._id}`} // route to product details 
                 key={product._id}
                 className="product-link"
               >

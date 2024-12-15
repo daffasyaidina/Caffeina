@@ -2,22 +2,23 @@ import React, { useState } from "react";
 import axios from "../utils/axiosConfig";
 import "./SignupPage.css";
 
+// SignupPage component
 const SignupPage = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
   });
-
+  
   const [errorMessage, setErrorMessage] = useState("");
-
+  // Handle form input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
-
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage(""); // Clear previous errors
@@ -35,6 +36,7 @@ const SignupPage = () => {
     }
   };
 
+  // Render the signup form
   return (
     <div className="signup-page-container">
       <div className="signup-box">
