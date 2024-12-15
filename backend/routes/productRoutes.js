@@ -42,6 +42,27 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// Edit a product
+app.put('/api/products/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, description, price } = req.body;
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      { name, description, price },
+      { new: true } // Return updated document
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    res.json(updatedProduct);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update product' });
+  }
+});
+
 // Fetch a single product by ID
 router.get("/:id", async (req, res) => {
   try {

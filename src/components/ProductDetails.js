@@ -1,40 +1,114 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "../utils/axiosConfig";
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import './ProductDetails.css';
 
-// ProductDetails component
 const ProductDetails = () => {
-  const { id } = useParams(); // Get product ID from URL
-  const [product, setProduct] = useState(null);
-  const [error, setError] = useState("");
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [product, setProduct] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    price: '',
+  });
 
-  // Fetch product details by ID
+  // Fetch product details
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const response = await axios.get(`/products/${id}`);// Fetch product details by ID
+    axios
+      .get(`http://localhost:5000/api/products/${id}`)
+      .then((response) => {
         setProduct(response.data);
-      } catch (err) {
-        setError("Failed to fetch product details."); 
-      }
-    };
-
-    fetchProduct();
+        setFormData({
+          name: response.data.name,
+          description: response.data.description,
+          price: response.data.price,
+        });
+      })
+      .catch((err) => {
+        console.error('Error fetching product:', err);
+        alert('Failed to fetch product details');
+      });
   }, [id]);
 
-  if (error) return <div>{error}</div>;
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  // Render the product details
+  // Submit edited data
+  const handleEdit = () => {
+    axios
+      .put(`http://localhost:5000/api/products/${id}`, formData)
+      .then(() => {
+        setEditMode(false);
+        setProduct(formData);
+        alert('Product updated successfully!');
+      })
+      .catch((err) => {
+        console.error('Error updating product:', err);
+        alert('Failed to update product');
+      });
+  };
+
+  // Delete the product
+  const handleDelete = () => {
+    axios
+      .delete(`http://localhost:5000/api/products/${id}`)
+      .then(() => {
+        alert('Product deleted successfully!');
+        navigate('/');
+      })
+      .catch((err) => {
+        console.error('Error deleting product:', err);
+        alert('Failed to delete product');
+      });
+  };
+
   return (
-    <div style={{ padding: "20px" }}>
-      {product ? (
-        <div>
-          <h1>{product.name}</h1>
-          <p>{product.description}</p>
-          <h3>Price: IDR{product.price}</h3>
+    <div className="product-details-container">
+      <h1>Product Details</h1>
+      {editMode ? (
+        <div className="edit-mode">
+          <label>Name:</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+          />
+          <label>Description:</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+          />
+          <label>Price:</label>
+          <input
+            type="number"
+            name="price"
+            value={formData.price}
+            onChange={handleChange}
+          />
+          <button className="save-btn" onClick={handleEdit}>
+            Save
+          </button>
+          <button className="cancel-btn" onClick={() => setEditMode(false)}>
+            Cancel
+          </button>
         </div>
       ) : (
-        <p>Loading product details...</p>
+        <div>
+          <h2>{product.name}</h2>
+          <p>{product.description}</p>
+          <p>Price: IDR {product.price}</p>
+          <button className="edit-btn" onClick={() => setEditMode(true)}>
+            Edit
+          </button>
+          <button className="delete-btn" onClick={handleDelete}>
+            Delete
+          </button>
+        </div>
       )}
     </div>
   );
