@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import './ProductDetails.css';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./ProductDetails.css";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -9,20 +9,18 @@ const ProductDetails = () => {
   const [product, setProduct] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    price: '',
+    name: "",
+    description: "",
+    price: "",
   });
   const [currentUser, setCurrentUser] = useState(null);
 
   // Fetch product details
   useEffect(() => {
-    const token = localStorage.getItem('token'); // Get token from localStorage
-  
-    const headers = token
-      ? { Authorization: token } // Include header only if the token exists
-      : {}; // No headers for unauthenticated users
-  
+    const token = localStorage.getItem("token");
+
+    const headers = token ? { Authorization: token } : {};
+
     axios
       .get(`http://localhost:5000/api/products/${id}`, { headers })
       .then((response) => {
@@ -33,67 +31,60 @@ const ProductDetails = () => {
           price: response.data.price,
         });
         if (token) {
-          const user = JSON.parse(atob(token.split('.')[1])); // Decode JWT payload
+          const user = JSON.parse(atob(token.split(".")[1]));
           setCurrentUser(user.id);
         }
       })
       .catch((err) => {
-        console.error('Error fetching product:', err);
-        alert('Failed to fetch product details');
+        console.error("Error fetching product:", err);
+        alert("Failed to fetch product details");
       });
   }, [id]);
-  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Submit edited data
   const handleEdit = () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (currentUser !== product.user) {
-      alert('You are not authorized to edit this product.');
+      alert("You are not authorized to edit this product.");
       return;
     }
 
     axios
       .put(`http://localhost:5000/api/products/${id}`, formData, {
-        headers: {
-          Authorization: token,
-        },
+        headers: { Authorization: token },
       })
       .then(() => {
         setEditMode(false);
         setProduct(formData);
-        alert('Product updated successfully!');
+        alert("Product updated successfully!");
       })
       .catch((err) => {
-        console.error('Error updating product:', err);
-        alert('Failed to update product');
+        console.error("Error updating product:", err);
+        alert("Failed to update product");
       });
   };
 
-  // Delete the product
   const handleDelete = () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (currentUser !== product.user) {
-      alert('You are not authorized to delete this product.');
+      alert("You are not authorized to delete this product.");
       return;
     }
 
     axios
       .delete(`http://localhost:5000/api/products/${id}`, {
-        headers: {
-          Authorization: token,
-        },
+        headers: { Authorization: token },
       })
       .then(() => {
-        alert('Product deleted successfully');
-        navigate('/'); // Redirect to homepage
+        alert("Product deleted successfully");
+        navigate("/");
       })
       .catch((error) => {
-        console.error('Error deleting product:', error);
-        alert('Failed to delete product');
+        console.error("Error deleting product:", error);
+        alert("Failed to delete product");
       });
   };
 
@@ -122,27 +113,29 @@ const ProductDetails = () => {
             value={formData.price}
             onChange={handleChange}
           />
-          <button className="save-btn" onClick={handleEdit}>
-            Save
-          </button>
-          <button className="cancel-btn" onClick={() => setEditMode(false)}>
-            Cancel
-          </button>
+          <div className="product-buttons">
+            <button className="save-btn" onClick={handleEdit}>
+              Save
+            </button>
+            <button className="cancel-btn" onClick={() => setEditMode(false)}>
+              Cancel
+            </button>
+          </div>
         </div>
       ) : (
         <div>
           <h2>{product.name}</h2>
           <p>{product.description}</p>
-          <p>Price: IDR {product.price}</p>
-          {currentUser === product.user && ( // Show edit and delete buttons only if the user is the creator 
-            <>
-              <button className="edit-btn" onClick={() => setEditMode(true)}> 
+          <p className="price">Price: IDR {product.price}</p>
+          {currentUser === product.user && (
+            <div className="product-buttons">
+              <button className="edit-btn" onClick={() => setEditMode(true)}>
                 Edit
               </button>
               <button className="delete-btn" onClick={handleDelete}>
                 Delete
               </button>
-            </>
+            </div>
           )}
         </div>
       )}
