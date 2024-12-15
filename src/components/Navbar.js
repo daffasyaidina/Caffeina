@@ -3,9 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "./Navbar.css"; 
 
-// Define the Navbar component
 const Navbar = () => {
-  const { token, logout } = useContext(AuthContext);
+  const { token, logout, username } = useContext(AuthContext); // Fetch username
   const navigate = useNavigate();
 
   const handleListItemClick = () => {
@@ -13,11 +12,10 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    logout(); // Perform logout
-    navigate("/"); // Force redirect to the home page
+    logout();
+    navigate("/");
   };
-  
-  // Render the Navbar component
+
   return (
     <nav className="navbar">
       <h1>
@@ -26,6 +24,7 @@ const Navbar = () => {
       <div className="navbar-buttons">
         {token ? (
           <>
+            <span className="navbar-username">{username ? `Hello, ${username}` : "Welcome, guest"}</span>
             <button className="list-item-btn" onClick={handleListItemClick}>
               List Item
             </button>

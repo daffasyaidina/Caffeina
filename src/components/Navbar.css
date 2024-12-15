@@ -62,3 +62,12 @@
   background-color: #D7A86E;
   color: #FFD700;
 }
+
+/* Username styling */
+.navbar-username {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  margin-right: 1rem;
+}
+
