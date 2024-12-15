@@ -18,13 +18,17 @@ const HomePage = () => {
   return (
     <div className="home-container">
       <header className="header">
-        <h1 className="title">About Us</h1>
-        <p className="subtitle">
-          Caffeina is a website specializing in Indonesian coffee beans, offering a curated
-          selection from regions like Sumatra, Java, and Sulawesi. With detailed descriptions of
-          each coffee's flavor and origin, Caffeina provides a seamless and inviting shopping
-          experience for coffee enthusiasts, celebrating the rich heritage of Indonesian coffee.
-        </p>
+        <div className="header-content">
+          <h1 className="logo">About Us</h1>
+          <div className="about-section">
+            <p className="about-description">
+              Caffeina is a website specializing in Indonesian coffee beans, offering a curated
+              selection from regions like Sumatra, Java, and Sulawesi. With detailed descriptions of
+              each coffee's flavor and origin, Caffeina provides a seamless and inviting shopping
+              experience for coffee enthusiasts, celebrating the rich heritage of Indonesian coffee.
+            </p>
+          </div>
+        </div>
       </header>
       <section className="products-section">
         <h2 className="products-title">Products</h2>
