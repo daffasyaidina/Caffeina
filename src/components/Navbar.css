@@ -34,23 +34,23 @@
 .navbar-buttons a {
   text-decoration: none;
   color: white;
-  background-color: none; /* Chocolate color */
+  background-color: none; 
   padding: 0.5rem 1rem;
   border-radius: 5px;
   transition: background-color 0.3s ease, color 0.3s ease;
-  outline: 1px solid #fff; /* Golden outline */
+  outline: 1px solid #fff; 
 }
 
 .navbar-buttons a:hover {
-  background-color: #D7A86E; /* Darker shade */
-  color: #FFD700; /* Golden text on hover */
+  background-color: #D7A86E; 
+  color: #FFD700;
 }
 
 /* Logout Button */
 .navbar-buttons button {
-  background-color: ffff;
+  background-color: #1c1c1c;
   border: none;
-  color: none;
+  color: white;
   padding: 0.5rem 1rem;
   border-radius: 5px;
   cursor: pointer;

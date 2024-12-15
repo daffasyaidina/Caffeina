@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "./Navbar.css"; // Import Navbar.css for styling
 
@@ -9,6 +9,11 @@ const Navbar = () => {
 
   const handleListItemClick = () => {
     navigate("/list"); // Redirect to the list item page
+  };
+
+  const handleLogout = () => {
+    logout(); // Perform logout
+    navigate("/"); // Force redirect to the home page
   };
 
   return (
@@ -22,7 +27,7 @@ const Navbar = () => {
             <button className="list-item-btn" onClick={handleListItemClick}>
               List Item
             </button>
-            <button onClick={logout}>Logout</button>
+            <button onClick={handleLogout}>Logout</button>
           </>
         ) : (
           <>
