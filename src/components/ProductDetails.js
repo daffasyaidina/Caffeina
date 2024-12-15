@@ -31,7 +31,7 @@ const ProductDetails = () => {
         <div>
           <h1>{product.name}</h1>
           <p>{product.description}</p>
-          <h3>Price: ${product.price}</h3>
+          <h3>Price: IDR{product.price}</h3>
         </div>
       ) : (
         <p>Loading product details...</p>
