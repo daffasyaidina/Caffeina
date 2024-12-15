@@ -1,7 +1,7 @@
-/* General Styles */
+/* General Styling */
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: #1c1c1c;
   color: #f2f2f2;
 }
@@ -10,46 +10,46 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #5D4037;
+  background-color: #5d4037;
 }
 
 /* Header Section */
 .header {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 20px;
+  justify-content: flex-start; /* Align content to the left */
+  padding: 40px;
   width: 100%;
 }
 
 .header-content {
-  display: flex;
-  flex-direction: column;
   max-width: 800px;
-  margin-left: 40px;
+  margin-left: 50px; /* Move content to the left */
 }
 
 .logo {
   font-size: 60px;
   font-weight: bold;
   margin: 0;
-  color: #ffffff;
+  color: #fff;
 }
 
 .about-section {
   margin-top: 20px;
+  text-align: left; /* Ensure text is left-aligned */
 }
 
 .about-title {
   font-size: 36px;
   font-weight: bold;
   color: #ffffff;
+  margin-bottom: 10px;
 }
 
 .about-description {
   font-size: 16px;
   line-height: 1.6;
   color: #d7d7d7;
+  max-width: 600px;
 }
 
 /* Products Section */
@@ -70,23 +70,29 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 24px;
 }
 
 .product-card {
-  background-color: #1c1c1c;
-  border-radius: 5px;
+  background-color: #2c2c2c;
+  border-radius: 8px;
   padding: 20px;
   width: 300px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   color: #f9f9f9;
-  outline: 1px solid #D7A86E;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
 }
 
 .product-title {
   font-size: 22px;
   font-weight: bold;
   margin-bottom: 10px;
+  color: #f2f2f2;
 }
 
 .product-price {
@@ -100,4 +106,26 @@ body {
   text-align: center;
   font-size: 18px;
   color: #ff8888;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header {
+    text-align: center;
+    justify-content: center; /* Center-align for smaller screens */
+  }
+
+  .header-content {
+    margin: 0; /* Reset margin for smaller devices */
+  }
+
+  .about-section {
+    align-items: center;
+    text-align: center;
+  }
+
+  .products-container {
+    flex-direction: column;
+    gap: 16px;
+  }
 }
