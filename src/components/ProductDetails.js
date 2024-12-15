@@ -74,18 +74,22 @@ const ProductDetails = () => {
       return;
     }
 
-    axios
-      .delete(`http://localhost:5000/api/products/${id}`, {
-        headers: { Authorization: token },
-      })
-      .then(() => {
-        alert("Product deleted successfully");
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Error deleting product:", error);
-        alert("Failed to delete product");
-      });
+    // Confirmation before deletion
+    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+    if (confirmDelete) {
+      axios
+        .delete(`http://localhost:5000/api/products/${id}`, {
+          headers: { Authorization: token },
+        })
+        .then(() => {
+          alert("Product deleted successfully");
+          navigate("/"); // Redirect to homepage after deletion
+        })
+        .catch((error) => {
+          console.error("Error deleting product:", error);
+          alert("Failed to delete product");
+        });
+    }
   };
 
   return (
