@@ -1,6 +1,7 @@
 const express = require("express");
 const Product = require("../models/Product");
 const router = express.Router();
+const authenticate = require("../middleware/auth");
 
 // Get All Products
 router.get("/", async (req, res) => {
@@ -25,41 +26,39 @@ router.post("/", async (req, res) => {
 });
 
 // delete a product
-router.delete("/:id", async (req, res) => {
+router.delete('/:id', authenticate, async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const deletedProduct = await Product.findByIdAndDelete(id);
-
-    if (!deletedProduct) {
-      return res.status(404).json({ message: "Product not found" });
+    const product = await Product.findByIdAndDelete(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
     }
-
-    res.json({ message: "Product deleted successfully", deletedProduct });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: "Server error" });
+    res.status(200).json({ message: 'Product deleted successfully.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to delete product.' });
   }
 });
 
 // Edit a product
-app.put('/api/products/:id', async (req, res) => {
+router.put('/:id', authenticate, async (req, res) => {
+  const { id } = req.params;
+  const { name, description, price } = req.body;
+
   try {
-    const { id } = req.params;
-    const { name, description, price } = req.body;
+    const product = await Product.findById(id);
 
-    const updatedProduct = await Product.findByIdAndUpdate(
-      id,
-      { name, description, price },
-      { new: true } // Return updated document
-    );
-
-    if (!updatedProduct) {
+    if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    res.json(updatedProduct);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to update product' });
+
+    // Update product fields
+    product.name = name || product.name;
+    product.description = description || product.description;
+    product.price = price || product.price;
+
+    const updatedProduct = await product.save();
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
   }
 });
 

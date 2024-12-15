@@ -38,8 +38,13 @@ const ProductDetails = () => {
 
   // Submit edited data
   const handleEdit = () => {
+    const token = localStorage.getItem('token'); // Retrieve token from localStorage
     axios
-      .put(`http://localhost:5000/api/products/${id}`, formData)
+      .put(`http://localhost:5000/api/products/${id}`, formData, {
+        headers: {
+          Authorization: token, // Pass token for authentication
+        },
+      })
       .then(() => {
         setEditMode(false);
         setProduct(formData);
@@ -53,14 +58,19 @@ const ProductDetails = () => {
 
   // Delete the product
   const handleDelete = () => {
+    const token = localStorage.getItem('token'); // Retrieve token from localStorage
     axios
-      .delete(`http://localhost:5000/api/products/${id}`)
-      .then(() => {
-        alert('Product deleted successfully!');
-        navigate('/');
+      .delete(`http://localhost:5000/api/products/${id}`, {
+        headers: {
+          Authorization: token, // Pass the token in the request header
+        },
       })
-      .catch((err) => {
-        console.error('Error deleting product:', err);
+      .then(() => {
+        alert('Product deleted successfully');
+        navigate('/'); // Redirect to homepage
+      })
+      .catch((error) => {
+        console.error('Error deleting product:', error);
         alert('Failed to delete product');
       });
   };
