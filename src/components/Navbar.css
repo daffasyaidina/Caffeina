@@ -20,7 +20,7 @@
 }
 
 .navbar h1 a:hover {
-  color: #FFD700; /* Golden hover effect */
+  color: #D7A86E; 
 }
 
 /* Buttons container */
@@ -34,22 +34,23 @@
 .navbar-buttons a {
   text-decoration: none;
   color: white;
-  background-color: #D2691E; /* Chocolate color */
+  background-color: none; /* Chocolate color */
   padding: 0.5rem 1rem;
   border-radius: 5px;
   transition: background-color 0.3s ease, color 0.3s ease;
+  outline: 1px solid #fff; /* Golden outline */
 }
 
 .navbar-buttons a:hover {
-  background-color: #A0522D; /* Darker shade */
+  background-color: #D7A86E; /* Darker shade */
   color: #FFD700; /* Golden text on hover */
 }
 
 /* Logout Button */
 .navbar-buttons button {
-  background-color: #D2691E;
+  background-color: ffff;
   border: none;
-  color: white;
+  color: none;
   padding: 0.5rem 1rem;
   border-radius: 5px;
   cursor: pointer;
@@ -58,6 +59,6 @@
 }
 
 .navbar-buttons button:hover {
-  background-color: #A0522D;
+  background-color: #D7A86E;
   color: #FFD700;
 }

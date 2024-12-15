@@ -50,7 +50,7 @@
   
   /* Sign In Button */
 .login-form button {
-    width: 100%;
+    width: 110%;
     padding: 0.8rem;
     border: none;
     border-radius: 5px;
@@ -60,7 +60,9 @@
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.1s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    display: block;
+    margin: auto;
   }
   
   .login-form button:hover {

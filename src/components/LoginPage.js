@@ -49,7 +49,7 @@ const LoginPage = () => {
         <button type="submit">Login</button>
       </form>
       <p>
-        don't have an account yet? <a href="/">Sign Up</a>
+        don't have an account yet? <a href="/signup">Sign Up</a>
       </p>
     </div>
   );
