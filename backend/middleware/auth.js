@@ -1,9 +1,10 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken'); 
 
+// Middleware to check if the user is authenticated
 const authMiddleware = (req, res, next) => {
   const token = req.header('Authorization').replace('Bearer ', '');
-
-  if (!token) {
+// Check if token exists
+  if (!token) { 
     return res.status(401).json({ message: 'No token, authorization denied' });
   }
 
