@@ -16,14 +16,14 @@ body {
 /* Header Section */
 .header {
   display: flex;
-  justify-content: flex-start; /* Align content to the left */
+  justify-content: flex-start; 
   padding: 40px;
   width: 100%;
 }
 
 .header-content {
   max-width: 800px;
-  margin-left: 50px; /* Move content to the left */
+  margin-left: 50px; 
 }
 
 .logo {
@@ -35,7 +35,7 @@ body {
 
 .about-section {
   margin-top: 20px;
-  text-align: left; /* Ensure text is left-aligned */
+  text-align: left; 
 }
 
 .about-title {
@@ -112,11 +112,11 @@ body {
 @media (max-width: 768px) {
   .header {
     text-align: center;
-    justify-content: center; /* Center-align for smaller screens */
+    justify-content: center; 
   }
 
   .header-content {
-    margin: 0; /* Reset margin for smaller devices */
+    margin: 0; 
   }
 
   .about-section {
@@ -133,7 +133,7 @@ body {
 body, html {
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-x: hidden; 
 }
 
 .home-container {
@@ -141,5 +141,5 @@ body, html {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* Ensure no child causes scroll */
+  overflow-x: hidden; 
 }
